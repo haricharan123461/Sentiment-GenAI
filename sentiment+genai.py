@@ -148,6 +148,7 @@ nltk.download('stopwords')
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')  # For lemmatization context
+nltk.download('punkt_tab')
 
 # Load dataset
 file_path = "dataset.csv"
@@ -232,9 +233,14 @@ if 'Cleaned Review' not in df.columns or 'Ratings' not in df.columns:
 # Drop missing or empty reviews just in case
 df = df[df['Cleaned Review'].notna() & df['Cleaned Review'].str.strip().astype(bool)]
 
-# Calculate average review length (in words)
-avg_review_length = df['Cleaned Review'].apply(lambda x: len(str(x).split())).mean()
-print(f"📏 Average Review Length: {avg_review_length:.2f} words")
+# Sort reviews by length (descending) and pick top 100
+df['Review_Length'] = df['Cleaned Review'].apply(lambda x: len(str(x).split()))
+top_100_df = df.sort_values(by='Review_Length', ascending=False).head(100)
+
+# Calculate average review length from top 100
+avg_review_length = top_100_df['Review_Length'].mean()
+print(f"📏 Average Length (Top 100 Reviews): {avg_review_length:.2f} words")
+
 
 # Choose vectorizer based on review length
 if avg_review_length > 50:
@@ -272,8 +278,40 @@ features_df.to_csv(output_file, index=False)
 
 print(f"\n✅ Feature extraction complete! File saved as: '{output_file}'")
 
-df = pd.read_csv("bow&tf-idf_features_with_ratings.csv")
-print(df.columns)
+#print TFidf
+import pandas as pd
+
+# Load the TF-IDF feature dataset
+df = pd.read_csv("bow_tfidf_features_with_ratings.csv")
+
+# Remove the label columns to focus on features
+feature_columns = df.columns.difference(['Ratings', 'Sentiment_Label'])
+
+# Get top 2 reviews
+top_x = df.iloc[:1]
+
+# Create a list to hold data for table
+table_data = []
+
+# For each review, collect non-zero weighted features
+for i, row in top_x.iterrows():
+    non_zero_features = row[feature_columns][row[feature_columns] > 0]
+    for feature, weight in non_zero_features.items():
+        table_data.append({
+            "Review #": i + 1,
+            "Feature": feature,
+            "TF-IDF Weight": round(weight, 4),
+            "Rating": row["Ratings"],
+            "Sentiment_Label": row["Sentiment_Label"]
+        })
+
+# Convert to DataFrame for display
+result_df = pd.DataFrame(table_data)
+
+# Display table
+print("\n📊 Non-zero TF-IDF Features for Top x Reviews:")
+print(result_df.to_string(index=False))
+
 
 #Model Training & Evaluation
 
