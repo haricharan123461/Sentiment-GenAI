@@ -1,7 +1,1 @@
-[Project .pdf](https://github.com/user-attachments/files/20562751/Project.pdf)
-![Project_page-0001](https://github.com/user-attachments/assets/3e57af55-c7e7-4338-bc83-2f940bdf3de5)
-![Project_page-0002](https://github.com/user-attachments/assets/0a73b3ba-5774-4777-af1d-9b87094506bb)
-![Project_page-0003](https://github.com/user-attachments/assets/e0bc3dfb-726b-4719-bfce-1b253f91ecf6)
-![Project_page-0004](https://github.com/user-attachments/assets/4bb77b56-a405-4fc7-b2af-fe350ec80411)
-![Project_page-0005](https://github.com/user-attachments/assets/1a98f8a1-1773-4917-8a69-5c38b8442524)
-![Project_page-0006](https://github.com/user-attachments/assets/cb4095b7-9ae9-4ae8-8ac7-18c7435054e4)
+Journal_Paper_Link: https://ijirt.org/publishedpaper/IJIRT187676_PAPER.pdf
